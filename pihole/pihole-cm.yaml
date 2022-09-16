@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pihole-config
+  namespace: pihole
+  labels:
+    app: pihole
+data:
+    TZ: "Europe/Stockholm"                #Set your timezone by replacing America/New_York. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for more timezones
+    VIRTUAL_HOST: "pi.hole"               #Location of the admin portal
+    # PROXY_LOCATION: "pi.hole"
+    ServerIP: "192.168.1.14"           #Set ServerIP to the External IP address for pihole-web that we got from the above confirmation
+    DNSSEC: "false"                       #Default is false, change to true to enable DNSSEC support
+    # PIHOLE_DNS_: "8.8.8.8;8.8.4.4"        #Upstream DNS Server, seperate by semicolon ";"
+    WEB_PORT: "8080"                        #container port for Web UI
