@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unifi
+  namespace: unifi
+  labels:
+    app: unifi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unifi
+  template:
+    metadata:
+      labels:
+        app: unifi
+        name: unifi
+    spec:
+      containers:
+      - name: unifi
+        image: lscr.io/linuxserver/unifi-controller:latest
+        imagePullPolicy: Always
+        env:
+        - name: PUID
+          value: "1000"
+        - name: GUID
+          value: "1000"
+        - name: MEM_LIMIT
+          value: "1024"
+        volumeMounts:
+        - name: unifi-config-volume
+          mountPath: /config
+      volumes:
+      - name: unifi-config-volume
+        persistentVolumeClaim:
+          claimName: unifi-config-claim
