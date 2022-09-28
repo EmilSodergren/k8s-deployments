@@ -22,7 +22,10 @@ spec:
         imagePullPolicy: Always
         env:
         - name: TZ
-          value: "Europe/Stockholm"
+          valueFrom:
+            configMapKeyRef:
+              name: pihole-config
+              key: TZ
         - name: WEBPASSWORD
           valueFrom:
             secretKeyRef:
