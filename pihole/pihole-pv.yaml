@@ -6,10 +6,10 @@ metadata:
     directory: etc
 spec:
   capacity:
-    storage: 500Mi
+    storage: 800Mi
   accessModes:
   - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   local:
     path: /data/pihole/etc
@@ -30,7 +30,7 @@ metadata:
     directory: dnsmasq.d
 spec:
   capacity:
-    storage: 500Mi
+    storage: 10Mi
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete

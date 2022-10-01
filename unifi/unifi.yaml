@@ -26,7 +26,7 @@ spec:
         - name: GUID
           value: "1000"
         - name: MEM_LIMIT
-          value: "1024"
+          value: "400"
         volumeMounts:
         - name: unifi-config-volume
           mountPath: /config

@@ -6,10 +6,10 @@ metadata:
     directory: config
 spec:
   capacity:
-    storage: 1024Mi
+    storage: 600Mi
   accessModes:
   - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   local:
     path: /data/unifi/config
