@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openhab-config
+  namespace: openhab
+  labels:
+    app: openhab
+data:
+  timezone: |
+    "Europe/Stockholm"
+  CRYPTO_POLICY: "unlimited"
+  EXTRA_JAVA_OPTS: "-Duser.timezone=Europe/Stockholm"
+  OPENHAB_HTTP_PORT: "8081"
+  OPENHAB_HTTPS_PORT: "8443"
+
+

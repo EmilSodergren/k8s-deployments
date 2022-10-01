@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openhab
+  namespace: openhab
+  labels:
+    app: openhab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openhab
+  template:
+    metadata:
+      labels:
+        app: openhab
+        name: openhab
+    spec:
+      containers:
+      - name: openhab 
+        image: openhab/openhab:3.3.0
+        imagePullPolicy: Always
+        env:
+        - name: CRYPTO_POLICY
+          valueFrom:
+            configMapKeyRef:
+              name: openhab-config
+              key: CRYPTO_POLICY
+        - name: EXTRA_JAVA_OPTS
+          valueFrom:
+            configMapKeyRef:
+              name: openhab-config
+              key: EXTRA_JAVA_OPTS
+        - name: OPENHAB_HTTP_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: openhab-config
+              key: OPENHAB_HTTP_PORT
+        - name: OPENHAB_HTTPS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: openhab-config
+              key: OPENHAB_HTTPS_PORT
+        volumeMounts:
+          - name: timezone
+            mountPath: /etc/timezone
+            subPath: timezone
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
+          - name: openhab-addons
+            mountPath: ./openhab_addons
+          - name: openhab-conf
+            mountPath: ./openhab_conf
+          - name: openhab-userdata
+            mountPath: ./openhab_userdata
+      volumes:
+        - name: timezone
+          configMap:
+            name: openhab-config
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+            type: ""
+        - name: openhab-addons
+          persistentVolumeClaim:
+            claimName: openhab-addons-claim
+        - name: openhab-conf
+          persistentVolumeClaim:
+            claimName: openhab-conf-claim
+        - name: openhab-userdata
+          persistentVolumeClaim:
+            claimName: openhab-userdata-claim
+
+
