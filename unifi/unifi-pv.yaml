@@ -12,7 +12,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   local:
-    path: /data/unifi/config
+    path: /data/unifi
   nodeAffinity:
     required:
       nodeSelectorTerms:
