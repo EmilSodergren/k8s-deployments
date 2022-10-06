@@ -16,13 +16,16 @@ spec:
         app: mosquitto
         name: mosquitto
     spec:
+      securityContext:
+        runAsUser: 1883
+        runAsGroup: 1883
       containers:
         - name: mosquitto
           image: eclipse-mosquitto
           imagePullPolicy: Always
           volumeMounts:
             - name: mosquitto-config
-              mountPath: mosquitto.conf
+              mountPath: /mosquitto/config/mosquitto.conf
               subPath: mosquitto.conf
             - name: mosquitto-data
               mountPath: /mosquitto/data
