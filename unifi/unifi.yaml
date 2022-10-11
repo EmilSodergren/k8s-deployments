@@ -25,9 +25,9 @@ spec:
             memory: 720Mi # 550 for unifi and 120 for mongodb
         env:
         - name: PUID
-          value: "1000"
-        - name: GUID
-          value: "1000"
+          value: "911"
+        - name: PGID
+          value: "911"
         - name: MEM_LIMIT
           value: "600"
         volumeMounts:
