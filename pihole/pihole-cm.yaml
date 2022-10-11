@@ -7,7 +7,7 @@ metadata:
     app: pihole
 data:
     TZ: "Europe/Stockholm"                #Set your timezone by replacing America/New_York. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for more timezones
-    VIRTUAL_HOST: "pi.hole"               #Location of the admin portal
+    VIRTUAL_HOST: "pi.home"               #Location of the admin portal
     # PROXY_LOCATION: "pi.hole"
     ServerIP: "192.168.1.14"           #Set ServerIP to the External IP address for pihole-web that we got from the above confirmation
     DNSSEC: "false"                       #Default is false, change to true to enable DNSSEC support
