@@ -17,7 +17,7 @@ spec:
         name: openhab
     spec:
       containers:
-      - name: openhab 
+      - name: openhab
         image: openhab/openhab:3.3.0
         imagePullPolicy: Always
         env:
@@ -49,11 +49,11 @@ spec:
             mountPath: /etc/localtime
             readOnly: true
           - name: openhab-addons
-            mountPath: ./openhab_addons
+            mountPath: /openhab/addons
           - name: openhab-conf
-            mountPath: ./openhab_conf
+            mountPath: /openhab/conf
           - name: openhab-userdata
-            mountPath: ./openhab_userdata
+            mountPath: /openhab/userdata
       volumes:
         - name: timezone
           configMap:
@@ -71,5 +71,3 @@ spec:
         - name: openhab-userdata
           persistentVolumeClaim:
             claimName: openhab-userdata-claim
-
-
