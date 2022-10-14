@@ -20,6 +20,9 @@ spec:
       - name: openhab
         image: openhab/openhab:3.3.0
         imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 600Mi
         env:
         - name: CRYPTO_POLICY
           valueFrom:
