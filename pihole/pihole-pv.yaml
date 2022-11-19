@@ -33,7 +33,7 @@ spec:
     storage: 10Mi
   accessModes:
   - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   local:
     path: /data/pihole/dnsmasq.d/
