@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tuya
+  namespace: tuya
+  labels:
+    app: tuya
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tuya
+  template:
+    metadata:
+      labels:
+        app: tuya
+        name: tuya
+    spec:
+      containers:
+        - name: tuya
+          image: mmrree/rust-tuya-mqtt:latest
+          imagePullPolicy: Always
+          env:
+            - name: TUYA_LOG
+              valueFrom:
+                configMapKeyRef:
+                  name: tuya-config
+                  key: TUYA_LOG
+          volumeMounts:
+            - name: tuya-conf
+              mountPath: /rust-tuya-mqtt/config/config.json
+              subPath: config.json
+            - name: tuya-devices
+              mountPath: /rust-tuya-mqtt/config/devices.json
+              subPath: devices.json
+      volumes:
+        - name: tuya-conf
+          configMap:
+            name: tuya-config
+        - name: tuya-devices
+          configMap:
+            name: tuya-config
+

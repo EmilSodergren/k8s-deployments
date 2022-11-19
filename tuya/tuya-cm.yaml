@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tuya-config
+  namespace: tuya
+  labels:
+    app: tuya
+data:
+  TUYA_LOG: "info"
+  config.json: |
+    {
+        "host": "mqtt.mosquitto",
+        "port": 1883,
+        "topic": "tuya/",
+        "mqtt_user": "",
+        "mqtt_pass": "",
+        "qos": 1
+    }
+  devices.json: |
+    [
+        {
+            "id": "46052834d8f15b92e53b",
+            "ip": "192.168.60.5",
+            "key": "d7f55195c322b78c",
+            "name": "5",
+            "version": "3.3"
+        },
+        {
+            "id": "545472205002915b0825",
+            "ip": "192.168.60.6",
+            "key": "4b6bd13665343009",
+            "name": "6",
+            "version": "3.3"
+        },
+        {
+            "id": "54547220ecfabc5ba5fd",
+            "ip": "192.168.60.7",
+            "key": "65970f2c6a25e6f8",
+            "name": "7",
+            "version": "3.3"
+        },
+        {
+            "id": "01588174d8f15bd1f88b",
+            "ip": "192.168.60.9",
+            "key": "813824954db6280c",
+            "name": "9",
+            "version": "3.3"
+        },
+        {
+            "id": "bfc3a8193eb5279bd8o2qt",
+            "ip": "192.168.60.14",
+            "key": "7197015c814452e4",
+            "name": "14",
+            "version": "3.3"
+        }
+    ]
