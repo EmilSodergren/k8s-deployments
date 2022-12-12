@@ -111,7 +111,7 @@ spec:
           operator: "Exists"
           effect: "NoSchedule"
       nodeSelector:
-        kubernetes.io/os: linux
+        beta.kubernetes.io/os: linux
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -121,7 +121,7 @@ spec:
               k8s-app: kube-dns
       containers:
       - name: coredns
-        image: rancher/mirrored-coredns-coredns:1.9.1
+        image: rancher/mirrored-coredns-coredns:1.9.4
         imagePullPolicy: IfNotPresent
         resources:
           limits:
