@@ -22,14 +22,14 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: 720Mi # 550 for unifi and 120 for mongodb
+            memory: 1G
         env:
         - name: PUID
           value: "911"
         - name: PGID
           value: "911"
         - name: MEM_LIMIT
-          value: "600"
+          value: "800"
         volumeMounts:
         - name: unifi-config-volume
           mountPath: /config
@@ -37,3 +37,61 @@ spec:
       - name: unifi-config-volume
         persistentVolumeClaim:
           claimName: unifi-config-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi
+  namespace: unifi
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.10.1
+spec:
+  selector:
+    app: unifi
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: unifi-device-comm
+  - port: 443
+    targetPort: 8443
+    protocol: TCP
+    name: unifi-web-admin
+  - port: 3478
+    targetPort: 3478
+    protocol: UDP
+    name: unifi-stun
+  - port: 10001
+    targetPort: 10001
+    protocol: UDP
+    name: unifi-discovery
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: unifi-config-claim
+  namespace: unifi
+spec:
+  storageClassName: ""
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  volumeName: unifi-nfs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: unifi-nfs
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: nas.home
+    path: "/volume1/ClusterShare/unifi"
+  mountOptions:
+    - nfsvers=3
