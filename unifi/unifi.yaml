@@ -25,9 +25,9 @@ spec:
             memory: 1G
         env:
         - name: PUID
-          value: "911"
+          value: "1005"
         - name: PGID
-          value: "911"
+          value: "1005"
         - name: MEM_LIMIT
           value: "800"
         volumeMounts:
