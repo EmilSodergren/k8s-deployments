@@ -17,8 +17,8 @@ spec:
         name: mosquitto
     spec:
       securityContext:
-        runAsUser: 1883
-        runAsGroup: 1883
+        runAsUser: 1005
+        runAsGroup: 1005
       containers:
         - name: mosquitto
           image: eclipse-mosquitto
@@ -43,3 +43,101 @@ spec:
         - name: mosquitto-log
           persistentVolumeClaim:
             claimName: mosquitto-log-claim
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-config
+  namespace: mosquitto
+  labels:
+    app: mosquitto
+data:
+  mosquitto.conf: |
+    persistence true
+    persistence_location /mosquitto/data
+    log_dest stdout
+    listener 1883 0.0.0.0
+    allow_anonymous true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mosquitto
+  namespace: mosquitto
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.10.2
+spec:
+  selector:
+    app: mosquitto
+  type: LoadBalancer
+  ports:
+    - port: 1883
+      targetPort: 1883
+      name: mqtt
+    - port: 9001
+      targetPort: 9001
+      name: mosquitto-otherport
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mosquitto-data-claim
+  namespace: mosquitto
+spec:
+  storageClassName: ""
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+  volumeName: mosquitto-data-volume
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mosquitto-log-claim
+  namespace: mosquitto
+spec:
+  storageClassName: ""
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+  volumeName: mosquitto-log-volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mosquitto-data-volume
+  labels:
+    directory: data
+spec:
+  capacity:
+    storage: 50Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: nas.home
+    path: "/volume1/ClusterShare/mosquitto/data"
+  mountOptions:
+    - nfsvers=3
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mosquitto-log-volume
+  labels:
+    directory: log
+spec:
+  capacity:
+    storage: 10Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: nas.home
+    path: "/volume1/ClusterShare/mosquitto/log"
+  mountOptions:
+    - nfsvers=3
