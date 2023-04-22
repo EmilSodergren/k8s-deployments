@@ -22,8 +22,18 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: 600Mi
+            memory: 800Mi
         env:
+        - name: USER_ID
+          valueFrom:
+            configMapKeyRef:
+              name: openhab-config
+              key: USER_ID
+        - name: GROUP_ID
+          valueFrom:
+            configMapKeyRef:
+              name: openhab-config
+              key: GROUP_ID
         - name: CRYPTO_POLICY
           valueFrom:
             configMapKeyRef:
@@ -74,3 +84,151 @@ spec:
         - name: openhab-userdata
           persistentVolumeClaim:
             claimName: openhab-userdata-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openhab
+  namespace: openhab
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.10.3
+spec:
+  selector:
+    app: openhab
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: openhab-http
+    - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: openhab-https
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openhab-config
+  namespace: openhab
+  labels:
+    app: openhab
+data:
+  timezone: |
+    "Europe/Stockholm"
+  CRYPTO_POLICY: "unlimited"
+  EXTRA_JAVA_OPTS: "-Duser.timezone=Europe/Stockholm"
+  OPENHAB_HTTP_PORT: "80"
+  OPENHAB_HTTPS_PORT: "443"
+  USER_ID: "1005"
+  GROUP_ID: "1005"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openhab-etc-localtime-claim
+  namespace: openhab
+spec:
+  storageClassName: ""
+  accessModes:
+  - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1Mi
+  selector:
+    matchLabels:
+      directory: localtime
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openhab-addons-claim
+  namespace: openhab
+spec:
+  storageClassName: ""
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi
+  volumeName: openhab-addons-volume
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openhab-conf-claim
+  namespace: openhab
+spec:
+  storageClassName: ""
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+  volumeName: openhab-conf-volume
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openhab-userdata-claim
+  namespace: openhab
+spec:
+  storageClassName: ""
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+  volumeName: openhab-userdata-volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: openhab-addons-volume
+spec:
+  capacity:
+    storage: 500Mi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: nas.home
+    path: "/volume1/ClusterShare/openhab/addons"
+  mountOptions:
+    - nfsvers=3
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: openhab-conf-volume
+  labels:
+    directory: conf
+spec:
+  capacity:
+    storage: 50Mi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: nas.home
+    path: "/volume1/ClusterShare/openhab/conf"
+  mountOptions:
+    - nfsvers=3
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: openhab-userdata-volume
+  labels:
+    directory: userdata
+spec:
+  capacity:
+    storage: 500Mi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: nas.home
+    path: "/volume1/ClusterShare/openhab/userdata"
+  mountOptions:
+    - nfsvers=3
