@@ -29,7 +29,7 @@ spec:
         - name: PGID
           value: "1005"
         - name: MEM_LIMIT
-          value: "800"
+          value: "1000"
         volumeMounts:
         - name: unifi-config-volume
           mountPath: /config
@@ -78,7 +78,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: 10Gi
   volumeName: unifi-nfs
 ---
 apiVersion: v1
@@ -87,7 +87,7 @@ metadata:
   name: unifi-nfs
 spec:
   capacity:
-    storage: 100Mi
+    storage: 10Gi
   accessModes:
     - ReadWriteOnce
   nfs:
