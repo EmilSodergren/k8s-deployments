@@ -16,6 +16,7 @@ spec:
         app: pihole
         name: pihole
     spec:
+      nodeName: raspberrypi
       containers:
       - name: pihole
         image: pihole/pihole:latest
