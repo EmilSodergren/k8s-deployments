@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: openhab
-        image: openhab/openhab:3.4.0
+        image: openhab/openhab:3.4.5
         imagePullPolicy: Always
         resources:
           limits:
