@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: openhab
-        image: openhab/openhab:3.4.5
+        image: openhab/openhab:4.0.0
         imagePullPolicy: Always
         resources:
           limits:
@@ -74,7 +74,7 @@ spec:
         - name: localtime
           hostPath:
             path: /etc/localtime
-            type: ""
+            type: File
         - name: openhab-addons
           persistentVolumeClaim:
             claimName: openhab-addons-claim
@@ -122,22 +122,6 @@ data:
   OPENHAB_HTTPS_PORT: "443"
   USER_ID: "1005"
   GROUP_ID: "1005"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: openhab-etc-localtime-claim
-  namespace: openhab
-spec:
-  storageClassName: ""
-  accessModes:
-  - ReadOnlyMany
-  resources:
-    requests:
-      storage: 1Mi
-  selector:
-    matchLabels:
-      directory: localtime
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
