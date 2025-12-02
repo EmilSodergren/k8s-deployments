@@ -23,11 +23,11 @@ function print_token {
 }
 
 function setup_agent {
-  if [ -z "$2" ]; then
+  if [ -z "$1" ]; then
     echo "ERROR: Need token as argument 2 to connect the agent"
     exit 1
   fi
-  curl -sfL https://get.k3s.io | K3S_URL=https://pi.home:6443 K3S_TOKEN="$2" sh -
+  curl -sfL https://get.k3s.io | K3S_URL=https://pi.home:6443 K3S_TOKEN="$1" sh -
 }
 
 if [[ "$1" == "master" ]]; then
@@ -35,7 +35,7 @@ if [[ "$1" == "master" ]]; then
   setup_dns
   print_token
 elif [[ "$1" == "agent" ]]; then
-  setup_agent
+  setup_agent $2
 elif [[ "$1" == "dns_only" ]]; then
   setup_dns
 else
