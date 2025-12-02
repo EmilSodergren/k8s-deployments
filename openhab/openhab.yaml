@@ -18,11 +18,11 @@ spec:
     spec:
       containers:
       - name: openhab
-        image: openhab/openhab:4.0.0
+        image: openhab/openhab:4.3.8
         imagePullPolicy: Always
         resources:
           limits:
-            memory: 800Mi
+            memory: 900Mi
         env:
         - name: USER_ID
           valueFrom:
