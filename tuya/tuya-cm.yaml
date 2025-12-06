@@ -40,38 +40,10 @@ data:
             "version": "3.3"
         },
         {
-            "id": "01588174d8f15bd1f88b",
-            "ip": "192.168.60.9",
-            "key": "813824954db6280c",
-            "name": "9",
-            "version": "3.3"
-        },
-        {
             "id": "bfc3a8193eb5279bd8o2qt",
             "ip": "192.168.60.14",
             "key": "7197015c814452e4",
             "name": "14",
-            "version": "3.3"
-        },
-        {
-            "id": "bfc3a8193eb5279bd8o2qt",
-            "ip": "192.168.60.19",
-            "key": "7197015c814452e4",
-            "name": "19",
-            "version": "3.3"
-        },
-        {
-            "id": "bf2c2f3aadec9437b1qvoq",
-            "ip": "192.168.60.20",
-            "key": "1!:Y$5eYrfYZ0hMI",
-            "name": "20",
-            "version": "3.3"
-        },
-        {
-            "id": "bf32e8c20cfd803cadhrmt",
-            "ip": "192.168.60.21",
-            "key": "eI_1Gp<+u>0SBC3A",
-            "name": "21",
             "version": "3.3"
         }
     ]
