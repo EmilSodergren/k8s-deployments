@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: openhab
-        image: openhab/openhab:4.3.8
+        image: openhab/openhab:5.1.0
         imagePullPolicy: Always
         resources:
           limits:
@@ -67,6 +67,8 @@ spec:
             mountPath: /openhab/conf
           - name: openhab-userdata
             mountPath: /openhab/userdata
+      nodeSelector:
+        kubernetes.io/hostname: hp1
       volumes:
         - name: timezone
           configMap:
