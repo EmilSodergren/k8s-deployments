@@ -22,7 +22,7 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: 900Mi
+            memory: 1300Mi
         env:
         - name: USER_ID
           valueFrom:

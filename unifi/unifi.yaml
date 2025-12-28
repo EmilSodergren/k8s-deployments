@@ -22,7 +22,7 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: 1G
+            memory: 1400Mi
         env:
         - name: PUID
           value: "1005"
@@ -33,6 +33,8 @@ spec:
         volumeMounts:
         - name: unifi-config-volume
           mountPath: /config
+      nodeSelector:
+        kubernetes.io/hostname: hp1
       volumes:
       - name: unifi-config-volume
         persistentVolumeClaim:
